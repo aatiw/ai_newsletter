@@ -10,6 +10,7 @@ export default function SigninPage() {
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const supabase = createClient();
+    const [showPopup, setShowPopup] = useState(true);
     const router = useRouter();
 
 
@@ -86,6 +87,23 @@ export default function SigninPage() {
                 </form>
             </div>
         </div>
+
+        {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-50 z-50">
+          <div className="bg-blue-300 rounded-lg shadow-lg p-6 max-w-sm w-full">
+            <h2 className="text-lg text-shadow-stone-500 font-bold mb-4">Welcome!</h2>
+            <p className="mb-6 text-shadow-stone-500">
+              You will need to update new API Keys in .env variable if the credits expire in the current window.
+            </p>
+            <button
+              onClick={() => setShowPopup(false)}
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
     )
 }
