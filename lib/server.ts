@@ -18,7 +18,7 @@ export async function createClient() {
                             cookieStore.set(name, value, options)
                         );
                     } catch (error) {
-                        
+                        console.log("error in server.ts", error);
                     }
                 }
             }

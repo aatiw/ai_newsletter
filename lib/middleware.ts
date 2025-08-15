@@ -17,7 +17,7 @@ export async function updateSession ( request: NextRequest) {
                     return cookieStore.getAll();
                 },
                 setAll(cookiesToSet) {
-                    cookiesToSet.forEach(({name, value, options}) => 
+                    cookiesToSet.forEach(({name, value}) => 
                         cookieStore.set(name, value)
                     );
                     supabaseResponse = NextResponse.next({
@@ -31,9 +31,27 @@ export async function updateSession ( request: NextRequest) {
         }
     )
 
-    // const {
-    //     data: {user},
-    // } = await supabase.auth.getUser();
+    const {
+        data: {user},
+    } = await supabase.auth.getUser();
+
+    if(request.nextUrl.pathname === "/"){
+        const url = request.nextUrl.clone();
+        url.pathname = "/dashboard";
+        return NextResponse.redirect(url);
+    }
+
+    if(request.nextUrl.pathname === "/signin" && user){
+        const url = request.nextUrl.clone();
+        url.pathname = "/dashboard";
+        return NextResponse.redirect(url);
+    }
+
+    if(request.nextUrl.pathname === "/dashboard" && !user){
+        const url = request.nextUrl.clone();
+        url.pathname = "/signin";
+        return NextResponse.redirect(url);
+    }
 
     // if(
     //     !user &&
